@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo '<<<qstat>>>'
+/usr/bin/qstat -q | grep "E R" | awk '{print $1,$6,$7;}'

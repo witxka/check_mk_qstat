@@ -1,0 +1,23 @@
+# the inventory function (dummy)
+def inventory_qstat_info(info):
+   #print info
+   for line in info:
+      queueName = line[0]  
+      queueR    = line[1]  
+      queueQ    = line[2]
+      yield queueName,queueR, queueQ 
+
+# the check function (dummy)
+def check_qstat_info(item, params, info):
+   for line in info:
+     if line[0] == item :
+       perfdata = [ ( "Running", line[1] ), ( "Queued", line[2] ) ]
+       return 0, "OK R/Q ("+line[1]+"/"+line[2]+")" ,  perfdata
+
+# declare the check to Check_MK
+check_info["qstat.info"] = {
+    'check_function':            check_qstat_info,
+    'inventory_function':        inventory_qstat_info,
+    'service_description':       'qstat for %s',
+    'has_perfdata':              True,
+}
